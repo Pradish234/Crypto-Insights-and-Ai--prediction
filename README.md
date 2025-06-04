@@ -1,6 +1,6 @@
 A full-stack Flask-based platform that delivers real-time cryptocurrency market data, predictions, sentiment analysis.
 
-** Features**
+**Features**
 - Real-time market data (BTC, ETH, ADA)
 - AI-powered price predictions
 - Sentiment analysis using NLP
