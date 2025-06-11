@@ -1,0 +1,2 @@
+2025-05-06 11:24:48,807 ERROR: Missing email configuration: ['smtp.gmail.com', 587, None, None, None]
+2025-05-06 11:30:39,402 ERROR: Missing email configuration: ['smtp.gmail.com', 587, None, None, None]
