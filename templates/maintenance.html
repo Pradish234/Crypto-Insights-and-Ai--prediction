@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Maintenance - Crypto Insight{% endblock %}
+
+{% block content %}
+<div class="maintenance-page">
+    <div class="maintenance-content">
+        <i class="fas fa-tools maintenance-icon"></i>
+        <h1>Site Under Maintenance</h1>
+        <p>We're currently performing some updates to improve your experience.</p>
+        <p>Please check back soon. We apologize for any inconvenience.</p>
+        <div class="estimated-time">
+            <i class="fas fa-clock"></i>
+            <span>Estimated completion: 30 minutes</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.maintenance-page {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+.maintenance-content {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 3rem;
+    max-width: 600px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.maintenance-icon {
+    font-size: 4rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    animation: spin 4s linear infinite;
+}
+
+.maintenance-content h1 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.maintenance-content p {
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.estimated-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    color: var(--primary-color);
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+</style>
+{% endblock %} 

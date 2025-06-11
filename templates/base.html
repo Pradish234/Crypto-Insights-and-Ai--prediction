@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Crypto Insight{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% if request.endpoint in ['home', 'market_trends', 'ai_predictions', 'sentiment_analysis', 'portfolio', 'login', 'signup', 'reset_password', 'reset_password_confirm'] %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/' + request.endpoint + '.css') }}">
+    {% endif %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <a href="{{ url_for('home') }}">Crypto Insight</a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('market_trends') }}">Market Trends</a>
+            <a href="{{ url_for('ai_predictions') }}">AI Predictions</a>
+            <a href="{{ url_for('sentiment_analysis') }}">Sentiment Analysis</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('portfolio') }}">Portfolio</a>
+                {% if current_user.is_admin %}
+                    <a href="{{ url_for('admin') }}">Admin</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}">Sign Up</a>
+            {% endif %}
+        </div>
+        <div class="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Crypto Insight</h3>
+                <p>Your comprehensive platform for cryptocurrency analysis and insights.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{{ url_for('market_trends') }}">Market Trends</a></li>
+                    <li><a href="{{ url_for('ai_predictions') }}">AI Predictions</a></li>
+                    <li><a href="{{ url_for('sentiment_analysis') }}">Sentiment Analysis</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>Email: pradish234@gmail.com</p>
+                <p>Follow us on social media</p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/pradish_234/" class="social-link">Instagram</a>
+                    <a href="https://www.linkedin.com/in/pradish-v/" class="social-link">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Crypto Insight. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    {% if request.endpoint in ['home', 'market_trends', 'ai_predictions', 'sentiment_analysis', 'portfolio', 'login', 'signup', 'reset_password', 'reset_password_confirm'] %}
+    <script src="{{ url_for('static', filename='js/' + request.endpoint + '.js') }}"></script>
+    {% endif %}
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 
