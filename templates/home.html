@@ -1,0 +1,365 @@
+{% extends "base.html" %}
+
+{% block title %}Crypto Insight - Home{% endblock %}
+
+{% block content %}
+<div class="glass-container">
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="gradient-text">Crypto Insight</h1>
+                <p class="hero-subtitle">Your AI-Powered Cryptocurrency Analysis Platform</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">24/7</span>
+                        <span class="stat-label">Real-time Analysis</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">95%</span>
+                        <span class="stat-label">Prediction Accuracy</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">10M+</span>
+                        <span class="stat-label">Data Points</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('market_trends') }}" class="btn btn-primary">
+                        <i class="fas fa-chart-line"></i>
+                        Explore Markets
+                    </a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('portfolio') }}" class="btn btn-secondary">
+                            <i class="fas fa-chart-pie"></i>
+                            View Portfolio
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('signup') }}" class="btn btn-secondary">
+                            <i class="fas fa-rocket"></i>
+                            Get Started
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="crypto-cards">
+                    <div class="card btc">
+                        <div class="card-content">
+                            <div class="crypto-icon">
+                                <span class="crypto-symbol">₿</span>
+                            </div>
+                            <div class="crypto-info">
+                                <span class="crypto-name">Bitcoin</span>
+                                <span class="crypto-price" id="btc-price"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card eth">
+                        <div class="card-content">
+                            <div class="crypto-icon">
+                                <span class="crypto-symbol">Ξ</span>
+                            </div>
+                            <div class="crypto-info">
+                                <span class="crypto-name">Ethereum</span>
+                                <span class="crypto-price" id="eth-price"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card ada">
+                        <div class="card-content">
+                            <div class="crypto-icon">
+                                <span class="crypto-symbol">₳</span>
+                            </div>
+                            <div class="crypto-info">
+                                <span class="crypto-name">Cardano</span>
+                                <span class="crypto-price" id="ada-price"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Why Choose Crypto Insight?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="gradient-icon brain-icon"></div>
+                </div>
+                <h3>Advanced AI Analysis</h3>
+                <p>Leverage cutting-edge machine learning models for accurate market predictions</p>
+                <div class="feature-stats">
+                    <div class="stat">
+                        <span class="value">95%</span>
+                        <span class="label">Accuracy</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">24/7</span>
+                        <span class="label">Monitoring</span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="gradient-icon chart-icon"></div>
+                </div>
+                <h3>Real-time Market Data</h3>
+                <p>Access comprehensive market data with millisecond precision</p>
+                <div class="feature-stats">
+                    <div class="stat">
+                        <span class="value">100+</span>
+                        <span class="label">Cryptocurrencies</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">10+</span>
+                        <span class="label">Exchanges</span>
+                    </div>
+                </div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <div class="gradient-icon trend-icon"></div>
+                </div>
+                <h3>Sentiment Analysis</h3>
+                <p>Track market sentiment across social media and news sources</p>
+                <div class="feature-stats">
+                    <div class="stat">
+                        <span class="value">1M+</span>
+                        <span class="label">Sources</span>
+                    </div>
+                    <div class="stat">
+                        <span class="value">Real-time</span>
+                        <span class="label">Updates</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="market-overview">
+        <div class="section-header">
+            <h2 class="section-title">Market Overview</h2>
+            <div class="market-filters">
+                <select id="timeframe">
+                    <option value="24h">24 Hours</option>
+                    <option value="7d">7 Days</option>
+                    <option value="30d">30 Days</option>
+                </select>
+            </div>
+        </div>
+        <div class="market-grid">
+            <div class="market-card btc">
+                <div class="card-header">
+                    <div class="crypto-info">
+                        <span class="crypto-symbol">₿</span>
+                        <h3>Bitcoin (BTC)</h3>
+                    </div>
+                    <div class="price-change" id="btc-change"></div>
+                </div>
+                <div class="card-body">
+                    <div class="price" id="btc-price"></div>
+                    <div class="market-stats">
+                        <div class="stat">
+                            <span class="label">Market Cap</span>
+                            <span class="value" id="btc-cap"></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Volume (24h)</span>
+                            <span class="value" id="btc-volume"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="market-card eth">
+                <div class="card-header">
+                    <div class="crypto-info">
+                        <span class="crypto-symbol">Ξ</span>
+                        <h3>Ethereum (ETH)</h3>
+                    </div>
+                    <div class="price-change" id="eth-change"></div>
+                </div>
+                <div class="card-body">
+                    <div class="price" id="eth-price"></div>
+                    <div class="market-stats">
+                        <div class="stat">
+                            <span class="label">Market Cap</span>
+                            <span class="value" id="eth-cap"></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Volume (24h)</span>
+                            <span class="value" id="eth-volume"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="market-card ada">
+                <div class="card-header">
+                    <div class="crypto-info">
+                        <span class="crypto-symbol">₳</span>
+                        <h3>Cardano (ADA)</h3>
+                    </div>
+                    <div class="price-change" id="ada-change"></div>
+                </div>
+                <div class="card-body">
+                    <div class="price" id="ada-price"></div>
+                    <div class="market-stats">
+                        <div class="stat">
+                            <span class="label">Market Cap</span>
+                            <span class="value" id="ada-cap"></span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Volume (24h)</span>
+                            <span class="value" id="ada-volume"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="latest-news">
+        <div class="section-header">
+            <h2 class="section-title">Latest Crypto News</h2>
+            <div class="news-filters">
+                <select id="news-category">
+                    <option value="all">All Categories</option>
+                    <option value="bitcoin">Bitcoin</option>
+                    <option value="ethereum">Ethereum</option>
+                    <option value="defi">DeFi</option>
+                </select>
+            </div>
+        </div>
+        <div class="news-grid" id="news-container">
+            <!-- News items will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="cta-content">
+            <div class="cta-text">
+                {% if current_user.is_authenticated %}
+                    <h2>Welcome to Your Crypto Dashboard</h2>
+                    <p>Get started with real-time market analysis and portfolio tracking</p>
+                {% else %}
+                    <h2>Ready to Start Your Crypto Journey?</h2>
+                    <p>Join thousands of traders who trust Crypto Insight for their cryptocurrency analysis</p>
+                {% endif %}
+            </div>
+            <div class="cta-buttons">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('portfolio') }}" class="btn btn-primary">
+                        <i class="fas fa-chart-pie"></i>
+                        View Portfolio
+                    </a>
+                    <a href="{{ url_for('market_trends') }}" class="btn btn-secondary">
+                        <i class="fas fa-chart-line"></i>
+                        Explore Markets
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i>
+                        Create Your Account
+                    </a>
+                    <a href="{{ url_for('market_trends') }}" class="btn btn-secondary">
+                        <i class="fas fa-chart-line"></i>
+                        Explore Markets
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Fetch market data
+    async function fetchMarketData() {
+        try {
+            const response = await fetch('/api/market-data');
+            const data = await response.json();
+            
+            // Update BTC data
+            document.getElementById('btc-price').textContent = utils.formatCurrency(data.btc.price);
+            document.getElementById('btc-change').textContent = utils.formatPercentage(data.btc.change_24h);
+            document.getElementById('btc-change').className = `price-change ${data.btc.change_24h >= 0 ? 'positive' : 'negative'}`;
+            document.getElementById('btc-cap').textContent = utils.formatCurrency(data.btc.market_cap);
+            document.getElementById('btc-volume').textContent = utils.formatCurrency(data.btc.volume_24h);
+            
+            // Update ETH data
+            document.getElementById('eth-price').textContent = utils.formatCurrency(data.eth.price);
+            document.getElementById('eth-change').textContent = utils.formatPercentage(data.eth.change_24h);
+            document.getElementById('eth-change').className = `price-change ${data.eth.change_24h >= 0 ? 'positive' : 'negative'}`;
+            document.getElementById('eth-cap').textContent = utils.formatCurrency(data.eth.market_cap);
+            document.getElementById('eth-volume').textContent = utils.formatCurrency(data.eth.volume_24h);
+            
+            // Update ADA data
+            document.getElementById('ada-price').textContent = utils.formatCurrency(data.ada.price);
+            document.getElementById('ada-change').textContent = utils.formatPercentage(data.ada.change_24h);
+            document.getElementById('ada-change').className = `price-change ${data.ada.change_24h >= 0 ? 'positive' : 'negative'}`;
+            document.getElementById('ada-cap').textContent = utils.formatCurrency(data.ada.market_cap);
+            document.getElementById('ada-volume').textContent = utils.formatCurrency(data.ada.volume_24h);
+        } catch (error) {
+            console.error('Error fetching market data:', error);
+        }
+    }
+
+    // Fetch latest news
+    async function fetchNews() {
+        try {
+            const response = await fetch('/api/latest-news');
+            const news = await response.json();
+            
+            const newsContainer = document.getElementById('news-container');
+            newsContainer.innerHTML = news.map(item => `
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="${item.image}" alt="${item.title}" onerror="this.className='error'">
+                        <div class="news-category">${item.category}</div>
+                    </div>
+                    <div class="news-content">
+                        <div class="news-meta">
+                            <span class="news-source">${item.source}</span>
+                            <span class="news-date">${utils.formatDate(item.date)}</span>
+                        </div>
+                        <h3 class="news-title">${item.title}</h3>
+                        <p class="news-summary">${item.summary}</p>
+                        <div class="news-footer">
+                            <a href="${item.url}" target="_blank" class="read-more">
+                                Read More <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <div class="news-sentiment ${item.sentiment >= 0 ? 'positive' : 'negative'}">
+                                <i class="fas fa-${item.sentiment >= 0 ? 'arrow-up' : 'arrow-down'}"></i>
+                                ${Math.abs(item.sentiment)}%
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } catch (error) {
+            console.error('Error fetching news:', error);
+        }
+    }
+
+    // Event listeners for filters
+    document.getElementById('timeframe').addEventListener('change', fetchMarketData);
+    document.getElementById('news-category').addEventListener('change', fetchNews);
+
+    // Initial data fetch
+    fetchMarketData();
+    fetchNews();
+
+    // Update market data every 30 seconds
+    setInterval(fetchMarketData, 30000);
+});
+</script>
+{% endblock %} 

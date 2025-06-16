@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Crypto Insight - Sign Up{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Join thousands of crypto enthusiasts</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('signup') }}" class="auth-form">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    {{ form.username(class="form-control", placeholder="Choose a username") }}
+                </div>
+                {% if form.username.errors %}
+                    <div class="errors">
+                        {% for error in form.username.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    {{ form.email(class="form-control", placeholder="Enter your email") }}
+                </div>
+                {% if form.email.errors %}
+                    <div class="errors">
+                        {% for error in form.email.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    {{ form.password(class="form-control", placeholder="Create a password") }}
+                </div>
+                {% if form.password.errors %}
+                    <div class="errors">
+                        {% for error in form.password.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="password-strength">
+                    <div class="strength-bar"></div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <div class="input-group">
+                    <i class="fas fa-lock"></i>
+                    {{ form.confirm_password(class="form-control", placeholder="Confirm your password") }}
+                </div>
+                {% if form.confirm_password.errors %}
+                    <div class="errors">
+                        {% for error in form.confirm_password.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-options">
+                <div class="terms-checkbox">
+                    {{ form.terms() }}
+                    <label for="terms">I agree to the <a href="{{ url_for('terms') }}">Terms of Service</a> and <a href="{{ url_for('privacy') }}">Privacy Policy</a></label>
+                </div>
+                {% if form.terms.errors %}
+                    <div class="errors">
+                        {% for error in form.terms.errors %}
+                            <span class="error-message">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <button type="submit" class="btn-submit">Create Account</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+<style>
+.flash-message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #c62828;
+}
+.flash-message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #2e7d32;
+}
+.error-message {
+    color: #c62828;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.auth-form');
+    const password = document.getElementById('password');
+    const strengthBar = document.querySelector('.strength-bar');
+
+    // Password strength indicator
+    password.addEventListener('input', function() {
+        const value = password.value;
+        let strength = 'weak';
+        
+        if (value.length >= 12 && /[A-Z]/.test(value) && /[0-9]/.test(value) && /[^A-Za-z0-9]/.test(value)) {
+            strength = 'strong';
+        } else if (value.length >= 8 && /[A-Z]/.test(value) && /[0-9]/.test(value)) {
+            strength = 'medium';
+        }
+        
+        strengthBar.className = 'strength-bar ' + strength;
+    });
+});
+</script>
+{% endblock %} 

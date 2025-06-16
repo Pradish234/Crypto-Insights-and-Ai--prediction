@@ -1,0 +1,483 @@
+{% extends "base.html" %}
+
+{% block title %}Crypto Insight - Portfolio{% endblock %}
+
+{% block content %}
+<div class="portfolio-container">
+    <header class="page-header">
+        <h1>My Portfolio</h1>
+        <p>Track and manage your cryptocurrency investments</p>
+    </header>
+
+    <section class="portfolio-overview">
+        <div class="overview-grid">
+            <div class="overview-card">
+                <h3>Total Portfolio Value</h3>
+                <div class="value" id="total-value">Loading...</div>
+            </div>
+            <div class="overview-card">
+                <h3>24h Change</h3>
+                <div class="value" id="portfolio-change">Loading...</div>
+            </div>
+            <div class="overview-card">
+                <h3>Total Profit/Loss</h3>
+                <div class="value" id="total-pnl">Loading...</div>
+            </div>
+            <div class="overview-card">
+                <h3>Portfolio Diversity</h3>
+                <div class="value" id="portfolio-diversity">Loading...</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-chart">
+        <div class="chart-header">
+            <h2>Portfolio Performance</h2>
+            <div class="chart-controls">
+                <button class="chart-type-btn active" data-type="line">Line</button>
+                <button class="chart-type-btn" data-type="candlestick">Candlestick</button>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="portfolioChart"></canvas>
+        </div>
+    </section>
+
+    <section class="portfolio-holdings">
+        <div class="holdings-header">
+            <h2>Holdings</h2>
+            <button class="btn btn-primary" id="add-holding-btn">
+                <i class="fas fa-plus"></i> Add Holding
+            </button>
+        </div>
+        <div class="holdings-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Asset</th>
+                        <th>Quantity</th>
+                        <th>Average Cost</th>
+                        <th>Current Price</th>
+                        <th>Value</th>
+                        <th>24h Change</th>
+                        <th>P/L</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="holdings-table-body">
+                    <!-- Will be populated dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="portfolio-allocation">
+        <h2>Portfolio Allocation</h2>
+        <div class="allocation-container">
+            <div class="allocation-chart">
+                <canvas id="allocationChart"></canvas>
+            </div>
+            <div class="allocation-list" id="allocation-list">
+                <!-- Will be populated dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <section class="transaction-history">
+        <h2>Transaction History</h2>
+        <div class="transaction-filters">
+            <div class="filter-group">
+                <label for="transaction-type">Type:</label>
+                <select id="transaction-type" class="filter-select">
+                    <option value="all">All</option>
+                    <option value="buy">Buy</option>
+                    <option value="sell">Sell</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="transaction-date">Date Range:</label>
+                <select id="transaction-date" class="filter-select">
+                    <option value="7d">Last 7 Days</option>
+                    <option value="30d">Last 30 Days</option>
+                    <option value="90d">Last 90 Days</option>
+                    <option value="all">All Time</option>
+                </select>
+            </div>
+        </div>
+        <div class="transaction-list" id="transaction-list">
+            <!-- Will be populated dynamically -->
+        </div>
+    </section>
+
+    <!-- Add/Edit Holding Modal -->
+    <div class="modal" id="holding-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Holding</h3>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="holding-form">
+                <div class="form-group">
+                    <label for="crypto-select">Cryptocurrency:</label>
+                    <select id="crypto-select" class="form-select" required>
+                        <option value="">Select a cryptocurrency</option>
+                        <!-- Will be populated dynamically -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" class="form-input" step="any" required>
+                </div>
+                <div class="form-group">
+                    <label for="average-cost">Average Cost:</label>
+                    <input type="number" id="average-cost" class="form-input" step="any" required>
+                </div>
+                <div class="form-group">
+                    <label for="purchase-date">Purchase Date:</label>
+                    <input type="date" id="purchase-date" class="form-input" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Holding</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Timeframe</h5>
+                        <div class="btn-group" role="group" aria-label="Timeframe selection">
+                            <button type="button" class="btn btn-outline-primary timeframe-btn active" data-timeframe="24h">24H</button>
+                            <button type="button" class="btn btn-outline-primary timeframe-btn" data-timeframe="7d">7D</button>
+                            <button type="button" class="btn btn-outline-primary timeframe-btn" data-timeframe="30d">30D</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let portfolioChart = null;
+    let allocationChart = null;
+    const portfolioChartContainer = document.getElementById('portfolioChart');
+    const allocationChartContainer = document.getElementById('allocationChart');
+    
+    // Initialize portfolio chart
+    function initPortfolioChart(data) {
+        if (portfolioChart) {
+            portfolioChart.destroy();
+        }
+        
+        const ctx = portfolioChartContainer.getContext('2d');
+        portfolioChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: data.values,
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Initialize allocation chart
+    function initAllocationChart(data) {
+        if (allocationChart) {
+            allocationChart.destroy();
+        }
+        
+        const ctx = allocationChartContainer.getContext('2d');
+        allocationChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    data: data.values,
+                    backgroundColor: [
+                        '#3498db',
+                        '#2ecc71',
+                        '#e74c3c',
+                        '#f1c40f',
+                        '#9b59b6',
+                        '#1abc9c',
+                        '#e67e22',
+                        '#34495e'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    }
+                }
+            }
+        });
+    }
+
+    // Fetch portfolio data
+    async function fetchPortfolioData() {
+        try {
+            const response = await fetch('/api/portfolio');
+            const data = await response.json();
+            
+            // Update overview cards
+            document.getElementById('total-value').textContent = utils.formatCurrency(data.total_value);
+            document.getElementById('portfolio-change').textContent = utils.formatPercentage(data.change_24h);
+            document.getElementById('portfolio-change').className = `value ${data.change_24h >= 0 ? 'positive' : 'negative'}`;
+            
+            document.getElementById('total-pnl').textContent = utils.formatCurrency(data.total_pnl);
+            document.getElementById('total-pnl').className = `value ${data.total_pnl >= 0 ? 'positive' : 'negative'}`;
+            
+            document.getElementById('portfolio-diversity').textContent = data.diversity_score;
+            
+            // Update charts
+            initPortfolioChart(data.performance_data);
+            initAllocationChart(data.allocation_data);
+            
+            // Update holdings table
+            updateHoldingsTable(data.holdings);
+            
+            // Update allocation list
+            updateAllocationList(data.allocation_data);
+            
+            // Update transaction history
+            updateTransactionHistory(data.transactions);
+        } catch (error) {
+            console.error('Error fetching portfolio data:', error);
+        }
+    }
+
+    // Update holdings table
+    function updateHoldingsTable(holdings) {
+        const tbody = document.getElementById('holdings-table-body');
+        tbody.innerHTML = holdings.map(holding => `
+            <tr>
+                <td>
+                    <div class="crypto-info">
+                        <img src="${holding.icon}" alt="${holding.name}">
+                        <span>${holding.name}</span>
+                        <span class="symbol">${holding.symbol}</span>
+                    </div>
+                </td>
+                <td>${holding.quantity.toFixed(8)}</td>
+                <td>${utils.formatCurrency(holding.average_cost)}</td>
+                <td>${utils.formatCurrency(holding.current_price)}</td>
+                <td>${utils.formatCurrency(holding.value)}</td>
+                <td class="${holding.change_24h >= 0 ? 'positive' : 'negative'}">
+                    ${utils.formatPercentage(holding.change_24h)}
+                </td>
+                <td class="${holding.pnl >= 0 ? 'positive' : 'negative'}">
+                    ${utils.formatCurrency(holding.pnl)}
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-icon edit-btn" data-id="${holding.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn-icon delete-btn" data-id="${holding.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+
+    // Update allocation list
+    function updateAllocationList(allocation) {
+        const container = document.getElementById('allocation-list');
+        container.innerHTML = allocation.labels.map((label, index) => `
+            <div class="allocation-item">
+                <div class="allocation-header">
+                    <span class="crypto-name">${label}</span>
+                    <span class="allocation-value">${utils.formatCurrency(allocation.values[index])}</span>
+                </div>
+                <div class="allocation-bar">
+                    <div class="bar-fill" style="width: ${(allocation.values[index] / allocation.total * 100)}%"></div>
+                </div>
+                <div class="allocation-footer">
+                    <span class="allocation-percentage">
+                        ${((allocation.values[index] / allocation.total) * 100).toFixed(1)}%
+                    </span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Update transaction history
+    function updateTransactionHistory(transactions) {
+        const container = document.getElementById('transaction-list');
+        container.innerHTML = transactions.map(transaction => `
+            <div class="transaction-item ${transaction.type.toLowerCase()}">
+                <div class="transaction-header">
+                    <div class="transaction-type">
+                        <i class="fas fa-${transaction.type.toLowerCase() === 'buy' ? 'arrow-up' : 'arrow-down'}"></i>
+                        ${transaction.type}
+                    </div>
+                    <div class="transaction-date">${utils.formatDate(transaction.timestamp)}</div>
+                </div>
+                <div class="transaction-details">
+                    <div class="crypto-info">
+                        <img src="${transaction.icon}" alt="${transaction.name}">
+                        <span>${transaction.name}</span>
+                        <span class="symbol">${transaction.symbol}</span>
+                    </div>
+                    <div class="transaction-amounts">
+                        <div class="amount">
+                            <span class="label">Amount:</span>
+                            <span class="value">${transaction.quantity.toFixed(8)}</span>
+                        </div>
+                        <div class="price">
+                            <span class="label">Price:</span>
+                            <span class="value">${utils.formatCurrency(transaction.price)}</span>
+                        </div>
+                        <div class="total">
+                            <span class="label">Total:</span>
+                            <span class="value">${utils.formatCurrency(transaction.total_value)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Modal functionality
+    const modal = document.getElementById('holding-modal');
+    const addHoldingBtn = document.getElementById('add-holding-btn');
+    const closeBtn = document.querySelector('.close-btn');
+    const cancelBtn = document.getElementById('cancel-btn');
+    const holdingForm = document.getElementById('holding-form');
+
+    function openModal() {
+        modal.style.display = 'flex';
+        // Populate cryptocurrency select
+        populateCryptoSelect();
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        holdingForm.reset();
+    }
+
+    addHoldingBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    cancelBtn.addEventListener('click', closeModal);
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+
+    // Populate cryptocurrency select
+    async function populateCryptoSelect() {
+        try {
+            const response = await fetch('/api/cryptocurrencies');
+            const cryptocurrencies = await response.json();
+            
+            const select = document.getElementById('crypto-select');
+            select.innerHTML = '<option value="">Select a cryptocurrency</option>' +
+                cryptocurrencies.map(crypto => `
+                    <option value="${crypto.symbol}">${crypto.name} (${crypto.symbol})</option>
+                `).join('');
+        } catch (error) {
+            console.error('Error fetching cryptocurrencies:', error);
+        }
+    }
+
+    // Form submission
+    holdingForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = {
+            symbol: document.getElementById('crypto-select').value,
+            quantity: parseFloat(document.getElementById('quantity').value),
+            average_cost: parseFloat(document.getElementById('average-cost').value),
+            purchase_date: document.getElementById('purchase-date').value
+        };
+
+        try {
+            const response = await fetch('/api/portfolio/holdings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                closeModal();
+                fetchPortfolioData();
+            } else {
+                throw new Error('Failed to add holding');
+            }
+        } catch (error) {
+            console.error('Error adding holding:', error);
+        }
+    });
+
+    // Event listeners
+    document.getElementById('transaction-type').addEventListener('change', fetchPortfolioData);
+    document.getElementById('transaction-date').addEventListener('change', fetchPortfolioData);
+    
+    // Chart type toggle
+    document.querySelectorAll('.chart-type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.chart-type-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            // Implement chart type change logic here
+        });
+    });
+
+    // Initial data fetch
+    fetchPortfolioData();
+
+    // Update data every 30 seconds
+    setInterval(fetchPortfolioData, 30000);
+});
+</script>
+{% endblock %} 
