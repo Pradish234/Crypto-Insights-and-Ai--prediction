@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Crypto Insight - Market Trends{% endblock %}
+
+{% block content %}
+<div class="market-trends-container">
+    <header class="page-header">
+        <h1>Market Trends</h1>
+        <p>Real-time cryptocurrency market data and analysis</p>
+    </header>
+
+    <section class="sentiment-filters">
+        <!-- Removed filter-group dropdowns for timeframe, currency, and sort -->
+    </section>
+
+    <section class="sentiment-overview">
+        <div class="overview-grid">
+            <div class="overview-card">
+                <h3>Total Market Cap</h3>
+                <div class="value" id="total-market-cap">Loading...</div>
+            </div>
+            <div class="overview-card">
+                <h3>24h Volume</h3>
+                <div class="value" id="total-volume">Loading...</div>
+            </div>
+            <div class="overview-card">
+                <h3>BTC Dominance</h3>
+                <div class="value" id="btc-dominance">Loading...</div>
+            </div>
+            <div class="overview-card">
+                <h3>Active Cryptocurrencies</h3>
+                <div class="value" id="active-cryptos">Loading...</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sentiment-chart">
+        <div class="chart-header">
+            <h2>Price Chart</h2>
+            <div style="display:flex;align-items:center;gap:1rem;">
+                <select id="coin-select" class="filter-select">
+                    <option value="all">All Coins</option>
+                    <option value="btc">Bitcoin (BTC)</option>
+                    <option value="eth">Ethereum (ETH)</option>
+                    <option value="ada">Cardano (ADA)</option>
+                </select>
+            <div class="chart-controls">
+                <button class="chart-type-btn active" data-type="line">Line</button>
+                <button class="chart-type-btn" data-type="bar">Bar</button>
+                </div>
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="priceChart"></canvas>
+        </div>
+    </section>
+
+    <section class="market-table">
+        <h2>Cryptocurrency List</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>24h Change</th>
+                        <th>Market Cap</th>
+                        <th>24h Volume</th>
+                    </tr>
+                </thead>
+                <tbody id="cryptoTableBody">
+                    <!-- JS will populate -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="market-insights">
+        <h2>Market Insights</h2>
+        <div class="insights-grid">
+            <div class="insight-card">
+                <h3>Top Gainers</h3>
+                <div class="insight-list" id="top-gainers">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            <div class="insight-card">
+                <h3>Top Losers</h3>
+                <div class="insight-list" id="top-losers">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+            <div class="insight-card">
+                <h3>Most Active</h3>
+                <div class="insight-list" id="most-active">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="market-error-message" style="display:none;color:#c62828;font-weight:bold;text-align:center;margin:1rem 0;"></div>
+    <div id="market-loading-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:9999;align-items:center;justify-content:center;font-size:2rem;color:#3498db;">
+        Loading market data...
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/market_trends.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/market_trends.js') }}"></script>
+{% endblock %}

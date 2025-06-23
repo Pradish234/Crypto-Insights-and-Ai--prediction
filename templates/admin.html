@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Crypto Insight{% endblock %}
+
+{% block content %}
+<div class="glass-container admin-dashboard">
+    <header class="page-header">
+        <h1>Admin Dashboard</h1>
+        <p>System monitoring and management</p>
+    </header>
+
+    <section class="admin-grid">
+        <!-- System Metrics -->
+        <div class="admin-card metrics-card">
+            <h2><i class="fas fa-chart-line"></i> System Metrics</h2>
+            {% if metrics %}
+            <div class="metrics-grid">
+                <div class="metric-item">
+                    <span class="metric-label">Active Users</span>
+                    <span class="metric-value">{{ metrics.active_users }}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Total Requests</span>
+                    <span class="metric-value">{{ metrics.total_requests }}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Avg Response Time</span>
+                    <span class="metric-value">{{ "%.2f"|format(metrics.average_response_time) }}ms</span>
+                </div>
+                <div class="metric-item">
+                    <span class="metric-label">Error Rate</span>
+                    <span class="metric-value">{{ "%.2f"|format(metrics.error_rate) }}%</span>
+                </div>
+            </div>
+            {% else %}
+            <p class="no-data">No metrics available</p>
+            {% endif %}
+        </div>
+
+        <!-- Maintenance Status -->
+        <div class="admin-card maintenance-card">
+            <h2><i class="fas fa-tools"></i> Maintenance Status</h2>
+            <div class="maintenance-status">
+                <span class="status-indicator {{ 'active' if maintenance else 'inactive' }}"></span>
+                <span class="status-text">{{ 'Maintenance Mode Active' if maintenance else 'System Normal' }}</span>
+            </div>
+            <form method="POST" action="{{ url_for('toggle_maintenance') }}" class="maintenance-form">
+                <button type="submit" class="btn {{ 'btn-secondary' if maintenance else 'btn-primary' }}">
+                    {{ 'Disable Maintenance' if maintenance else 'Enable Maintenance' }}
+                </button>
+            </form>
+        </div>
+
+        <!-- System Logs -->
+        <div class="admin-card logs-card">
+            <h2><i class="fas fa-list"></i> Recent System Logs</h2>
+            {% if logs %}
+            <div class="logs-list">
+                {% for log in logs %}
+                <div class="log-item">
+                    <span class="log-timestamp">{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                    <span class="log-level {{ log.level }}">{{ log.level }}</span>
+                    <span class="log-message">{{ log.message }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-data">No logs available</p>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.admin-dashboard {
+    padding: 2rem;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.admin-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.admin-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.metric-label {
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+.metric-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.maintenance-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.status-indicator.active {
+    background-color: #f44336;
+    box-shadow: 0 0 10px #f44336;
+}
+
+.status-indicator.inactive {
+    background-color: #4CAF50;
+    box-shadow: 0 0 10px #4CAF50;
+}
+
+.logs-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.log-item {
+    display: grid;
+    grid-template-columns: 150px 80px 1fr;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.log-timestamp {
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+.log-level {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.log-level.info {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #2196F3;
+}
+
+.log-level.warning {
+    background-color: rgba(255, 152, 0, 0.1);
+    color: #FF9800;
+}
+
+.log-level.error {
+    background-color: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+}
+
+.no-data {
+    text-align: center;
+    color: var(--light-text);
+    padding: 2rem 0;
+}
+</style>
+{% endblock %} 
