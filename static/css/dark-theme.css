@@ -1,0 +1,625 @@
+/* static/css/dark-theme.css */
+html[data-theme='dark'] {
+    --bg-color: #1a1a1a;
+    --surface-color: #2c2c2c;
+    --text-color: #f0f0f0;
+    --primary-color: #4a90e2;
+    --secondary-color: #50e3c2;
+    --border-color: #444;
+    --glass-bg: rgba(44, 44, 44, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --link-color: var(--primary-color);
+    --link-hover-color: var(--secondary-color);
+    --positive-change-color: #26a69a;
+    --negative-change-color: #ef5350;
+}
+
+html[data-theme='dark'],
+html[data-theme='dark'] body {
+    background: var(--bg-primary) !important;
+    background-color: var(--bg-primary) !important;
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .container {
+    background: transparent !important;
+}
+
+html[data-theme='dark'] .navbar,
+html[data-theme='dark'] .footer {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .nav-brand a,
+html[data-theme='dark'] .nav-links a {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .nav-links a:hover {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .theme-toggle-btn {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .alert {
+    background-color: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .footer-section h3 {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .glass-container {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
+}
+
+html[data-theme='dark'] h1, html[data-theme='dark'] h2, html[data-theme='dark'] h3 {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .page-header p {
+    color: #b0b0b0;
+}
+
+/* Home Page Styles */
+html[data-theme='dark'] .hero-subtitle {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .stat-value {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .stat-label {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .card,
+html[data-theme='dark'] .feature-card,
+html[data-theme='dark'] .market-card,
+html[data-theme='dark'] .news-card {
+    background: var(--surface-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .card:hover,
+html[data-theme='dark'] .feature-card:hover,
+html[data-theme='dark'] .market-card:hover,
+html[data-theme='dark'] .news-card:hover {
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+html[data-theme='dark'] .section-title {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .market-filters select,
+html[data-theme='dark'] .news-filters select {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .price-change.positive {
+    color: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .price-change.negative {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .news-title a {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .news-title a:hover {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .news-summary {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .read-more {
+    color: var(--primary-color);
+}
+
+/* Market Trends Page Styles */
+html[data-theme='dark'] .filter-select {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .overview-card,
+html[data-theme='dark'] .insight-card,
+html[data-theme='dark'] .chart-container,
+html[data-theme='dark'] .table-container {
+    background: var(--surface-color);
+    color: var(--text-color);
+    box-shadow: 0 2px 12px var(--shadow-color);
+}
+
+html[data-theme='dark'] .overview-card h3,
+html[data-theme='dark'] .insight-card h3 {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .overview-card .value {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .chart-controls button {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .chart-controls .active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+html[data-theme='dark'] .chart-container {
+    background: var(--surface-color);
+}
+
+html[data-theme='dark'] thead {
+    background-color: #3a3a3a;
+}
+
+html[data-theme='dark'] th, 
+html[data-theme='dark'] td {
+    border-bottom-color: var(--border-color);
+}
+
+html[data-theme='dark'] .positive {
+    color: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .negative {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .insight-list {
+    color: #b0b0b0;
+}
+
+/* AI Predictions Page Styles */
+html[data-theme='dark'] .glass-container,
+html[data-theme='dark'] .overview-card,
+html[data-theme='dark'] .details-card,
+html[data-theme='dark'] .insight-card,
+html[data-theme='dark'] .chart-container,
+html[data-theme='dark'] .performance-metrics,
+html[data-theme='dark'] .factors-list,
+html[data-theme='dark'] .historical-predictions,
+html[data-theme='dark'] .sentiment-overview,
+html[data-theme='dark'] .prediction-details,
+html[data-theme='dark'] .prediction-insights,
+html[data-theme='dark'] .disclaimer {
+    background: var(--surface-color) !important;
+    color: var(--text-color) !important;
+}
+
+html[data-theme='dark'] h1, html[data-theme='dark'] h2, html[data-theme='dark'] h3,
+html[data-theme='dark'] .page-header,
+html[data-theme='dark'] .chart-header,
+html[data-theme='dark'] .label,
+html[data-theme='dark'] .details-card h3,
+html[data-theme='dark'] .insight-card h3,
+html[data-theme='dark'] .overview-card h3,
+html[data-theme='dark'] .chart-title,
+html[data-theme='dark'] .value,
+html[data-theme='dark'] .performance-metrics,
+html[data-theme='dark'] .factors-list,
+html[data-theme='dark'] .historical-predictions {
+    color: var(--text-color) !important;
+}
+
+html[data-theme='dark'] .label {
+    color: #b0b0b0 !important;
+}
+
+html[data-theme='dark'] .value {
+    color: var(--primary-color) !important;
+}
+
+html[data-theme='dark'] .page-subtitle {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .control-select {
+    background: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .overview-title i,
+html[data-theme='dark'] .overview-value,
+html[data-theme='dark'] .chart-title i,
+html[data-theme='dark'] .metric-icon,
+html[data-theme='dark'] .metric-value,
+html[data-theme='dark'] .factors-title i {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .chart-btn {
+    color: var(--text-color);
+    background: var(--surface-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .chart-btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* AI Prediction Page Styles */
+html[data-theme='dark'] .section-card,
+html[data-theme='dark'] .metric-item,
+html[data-theme='dark'] .factor-item,
+html[data-theme='dark'] .prediction-item,
+html[data-theme='dark'] .insight-subsection,
+html[data-theme='dark'] .disclaimer {
+    background: var(--surface-color);
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .section-title,
+html[data-theme='dark'] .subsection-title,
+html[data-theme='dark'] .metric-label,
+html[data-theme='dark'] .factor-value,
+html[data-theme='dark'] .indicator-name,
+html[data-theme='dark'] .sentiment-details,
+html[data-theme='dark'] .risk-details,
+html[data-theme='dark'] .prediction-date {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .metric-value,
+html[data-theme='dark'] .indicator-value,
+html[data-theme='dark'] .sentiment-score,
+html[data-theme='dark'] .risk-level {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .metric-value.positive,
+html[data-theme='dark'] .sentiment-score.positive,
+html[data-theme='dark'] .risk-level.low {
+    color: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .risk-level.high {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .risk-level.medium {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .factor-name {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .factor-bar {
+    background: #444;
+}
+
+html[data-theme='dark'] .prediction-accuracy.positive {
+    color: var(--positive-change-color);
+}
+
+/* Sentiment Analysis Page Styles */
+html[data-theme='dark'] .control-group select {
+    background: var(--surface-color);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .control-group select:hover {
+    background: #3a3a3a;
+    border-color: var(--primary-color);
+}
+
+html[data-theme='dark'] .overview-card,
+html[data-theme='dark'] .source-card {
+    background: var(--surface-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .overview-card:hover,
+html[data-theme='dark'] .source-card:hover {
+    box-shadow: 0 10px 20px var(--shadow-color);
+}
+
+html[data-theme='dark'] .card-header h2 {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .score-value.positive {
+    color: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .score-value.negative {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .score-value.neutral {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .score-label,
+html[data-theme='dark'] .distribution-title,
+html[data-theme='dark'] .bar .label,
+html[data-theme='dark'] .bar .percentage {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .progress {
+    background: #444;
+}
+
+html[data-theme='dark'] .bar.positive .progress-bar {
+    background: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .bar.neutral .progress-bar {
+    background: var(--primary-color);
+}
+
+html[data-theme='dark'] .bar.negative .progress-bar {
+    background: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .source-name {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .source-sentiment.positive {
+    color: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .source-sentiment.negative {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .source-sentiment.neutral {
+    color: var(--primary-color);
+}
+
+/* Portfolio Page Styles */
+html[data-theme='dark'] .page-header h1 {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .page-header p {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .overview-card,
+html[data-theme='dark'] .portfolio-chart,
+html[data-theme='dark'] .holdings-table,
+html[data-theme='dark'] .allocation-container {
+    background: var(--surface-color);
+    color: var(--text-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+html[data-theme='dark'] .overview-card h3,
+html[data-theme='dark'] .chart-header h2,
+html[data-theme='dark'] .holdings-header h2,
+html[data-theme='dark'] .portfolio-allocation h2 {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .overview-card .value {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .overview-card .value.positive {
+    color: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .overview-card .value.negative {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .chart-type-btn {
+    background: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .chart-type-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .chart-type-btn.active {
+    background: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+html[data-theme='dark'] th, 
+html[data-theme='dark'] td {
+    border-bottom-color: var(--border-color);
+}
+
+html[data-theme='dark'] th {
+    background: #3a3a3a;
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .symbol {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .btn-icon {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .btn-icon:hover {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .btn-icon.delete-btn:hover {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .allocation-item {
+    background: #3a3a3a;
+}
+
+html[data-theme='dark'] .filter-select {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .transaction-item {
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .transaction-type.buy {
+    color: var(--positive-change-color);
+}
+
+html[data-theme='dark'] .transaction-type.sell {
+    color: var(--negative-change-color);
+}
+
+html[data-theme='dark'] .modal-content {
+    background: var(--surface-color);
+}
+
+html[data-theme='dark'] .modal-header h3 {
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .close-btn {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .form-input, 
+html[data-theme='dark'] .form-select {
+    background-color: #3a3a3a;
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+/* Auth Pages Styles */
+html[data-theme='dark'] .auth-section {
+    background: #121212;
+}
+
+html[data-theme='dark'] .auth-container {
+    background: var(--surface-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .auth-subtitle,
+html[data-theme='dark'] .form-group label,
+html[data-theme='dark'] .input-group i,
+html[data-theme='dark'] .remember-me label,
+html[data-theme='dark'] .auth-footer p {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .form-control {
+    background: #3a3a3a;
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+html[data-theme='dark'] .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+html[data-theme='dark'] .form-control::placeholder {
+    color: #b0b0b0;
+}
+
+html[data-theme='dark'] .remember-me input[type="checkbox"] {
+    background: #3a3a3a;
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .forgot-password,
+html[data-theme='dark'] .auth-footer a {
+    color: var(--primary-color);
+}
+
+html[data-theme='dark'] .forgot-password:hover,
+html[data-theme='dark'] .auth-footer a:hover {
+    color: var(--secondary-color);
+}
+
+html[data-theme='dark'] .auth-footer {
+    border-top-color: var(--border-color);
+}
+
+html[data-theme='dark'] .password-strength {
+    background: #444;
+}
+
+/* Sentiment Analysis Page Specific Overrides */
+html[data-theme='dark'] .sentiment-container,
+html[data-theme='dark'] .breakdown-card,
+html[data-theme='dark'] .insight-card,
+html[data-theme='dark'] .correlation-container {
+    background: var(--surface-color) !important;
+    color: var(--text-color) !important;
+}
+
+html[data-theme='dark'] .page-header h1,
+html[data-theme='dark'] .page-header p,
+html[data-theme='dark'] .chart-header h2,
+html[data-theme='dark'] .breakdown-card h3,
+html[data-theme='dark'] .sentiment-feed h2,
+html[data-theme='dark'] .sentiment-insights h2,
+html[data-theme='dark'] .sentiment-correlation h2 {
+    color: var(--text-color) !important;
+}
+
+html[data-theme='dark'] .filter-select,
+html[data-theme='dark'] .chart-type-btn {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+html[data-theme='dark'] .chart-type-btn.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-color: var(--primary-color);
+}
+
+html[data-theme='dark'] .value,
+html[data-theme='dark'] .correlation-stats .value {
+    color: var(--primary-color) !important;
+}
+
+html[data-theme='dark'] .chart-container,
+html[data-theme='dark'] .correlation-chart {
+    background: var(--surface-color);
+}
+
+html[data-theme='dark'] .source-list,
+html[data-theme='dark'] .emotion-list,
+html[data-theme='dark'] .feed-container,
+html[data-theme='dark'] .mentions-list,
+html[data-theme='dark'] .accounts-list {
+    color: var(--text-color);
+} 
